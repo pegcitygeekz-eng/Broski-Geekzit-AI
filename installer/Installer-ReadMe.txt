@@ -1,13 +1,17 @@
 BROSKI AI WINDOWS INSTALLER
 
-Run broski-0.0.3.exe and follow the setup wizard. The self-contained Windows
-installer includes the desktop app, animation and blueprint assets, launcher,
-and a separate executable uninstaller. Installation and uninstallation do not
-require PowerShell scripts or administrator access.
+Extract all files from Broski-0.0.3-Windows-x64.zip, then run
+broski-0.0.3.exe and follow the setup wizard. Keep all extracted files
+together; the setup runtime and Broski-Payload.zip are required. The package
+includes the desktop app, animation and blueprint assets, launcher, and
+separate executable uninstaller.
+Installation and uninstallation do not require PowerShell scripts or
+administrator access.
 
-The canonical build output is installer\release\broski-0.0.3.exe. The
-Build-Installer.ps1 file is developer tooling used to build the executable; it
-is not an installer and is not required by end users.
+The canonical distribution package is
+installer\release\Broski-0.0.3-Windows-x64.zip. The EXE opens the setup wizard;
+the companion payload ZIP contains the app files. Build-Installer.ps1 is
+developer tooling and is not required by end users.
 
 Setup creates Start menu, desktop, and sign-in startup shortcuts. If Windows
 does not allow taskbar pinning, right-click the desktop shortcut and choose

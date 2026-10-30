@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using System.IO.Compression;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using Microsoft.Win32;
@@ -19,8 +18,36 @@ internal static class Program
     [STAThread]
     private static void Main()
     {
-        ApplicationConfiguration.Initialize();
-        Application.Run(new SetupForm());
+        try
+        {
+            ApplicationConfiguration.Initialize();
+            Application.Run(new SetupForm());
+        }
+        catch (Exception exception)
+        {
+            var message = $"Broski Setup could not open.\r\n\r\n{exception}";
+            try
+            {
+                var logDirectory = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                    "Broski",
+                    "Setup");
+                Directory.CreateDirectory(logDirectory);
+                var logPath = Path.Combine(logDirectory, "setup.log");
+                File.AppendAllText(logPath, $"[{DateTimeOffset.Now:O}]\r\n{exception}\r\n\r\n");
+                message += $"\r\n\r\nDetails were saved to:\r\n{logPath}";
+            }
+            catch (Exception logException)
+            {
+                message += $"\r\n\r\nThe setup log could not be written:\r\n{logException.Message}";
+            }
+
+            MessageBox.Show(
+                message,
+                "Broski AI Setup 0.0.3",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+        }
     }
 
     private sealed class SetupForm : Form
@@ -401,8 +428,15 @@ internal static class Program
 
     private static void ExtractPayload(string destination)
     {
-        using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Broski-Payload.zip")
-            ?? throw new InvalidOperationException("The Broski application payload is missing from setup.");
+        var payloadPath = Path.Combine(AppContext.BaseDirectory, "Broski-Payload.zip");
+        if (!File.Exists(payloadPath))
+        {
+            throw new FileNotFoundException(
+                "The Broski application payload is missing. Extract all files from the downloaded setup ZIP, then run the installer.",
+                payloadPath);
+        }
+
+        using var stream = File.OpenRead(payloadPath);
         using var archive = new ZipArchive(stream, ZipArchiveMode.Read);
         foreach (var entry in archive.Entries)
         {

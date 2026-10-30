@@ -23,6 +23,10 @@ $bootstrapperOutput = Join-Path $workDirectory 'setup-exe'
 $uninstallerOutput = Join-Path $workDirectory 'uninstaller'
 $payloadArchive = Join-Path $workDirectory 'ChoppaAI-Payload.zip'
 $installerExecutable = Join-Path $OutputDirectory 'broski-0.0.3.exe'
+$distributionDirectory = Join-Path $workDirectory 'distribution'
+$distributionArchive = Join-Path $OutputDirectory 'Broski-0.0.3-Windows-x64.zip'
+$distributionChecksum = "$distributionArchive.sha256"
+$payloadReleaseFile = Join-Path $OutputDirectory 'Broski-Payload.zip'
 
 if (-not (Test-Path -LiteralPath $projectFile -PathType Leaf)) {
     throw "The project file was not found: $projectFile"
@@ -114,8 +118,7 @@ try {
         --configuration Release `
         --runtime win-x64 `
         --self-contained true `
-        --output $bootstrapperOutput `
-        "-p:PayloadArchive=$payloadArchive"
+        --output $bootstrapperOutput
     if ($LASTEXITCODE -ne 0) {
         throw "The installer executable build failed with exit code $LASTEXITCODE."
     }
@@ -125,11 +128,33 @@ try {
     if (-not (Test-Path -LiteralPath $builtExecutable -PathType Leaf)) {
         throw "The installer executable was not found after publishing: $bootstrapperOutput"
     }
-    Copy-Item -LiteralPath $builtExecutable -Destination $installerExecutable -Force
+    Get-ChildItem -LiteralPath $bootstrapperOutput -Force |
+        Copy-Item -Destination $OutputDirectory -Recurse -Force
+    Copy-Item -LiteralPath $payloadArchive -Destination $payloadReleaseFile -Force
+
+    New-Item -ItemType Directory -Path $distributionDirectory | Out-Null
+    Get-ChildItem -LiteralPath $bootstrapperOutput -Force |
+        Copy-Item -Destination $distributionDirectory -Recurse -Force
+    Copy-Item -LiteralPath $payloadReleaseFile -Destination $distributionDirectory
+    if (Test-Path -LiteralPath $distributionArchive -PathType Leaf) {
+        Remove-Item -LiteralPath $distributionArchive -Force
+    }
+    [IO.Compression.ZipFile]::CreateFromDirectory(
+        $distributionDirectory,
+        $distributionArchive,
+        [IO.Compression.CompressionLevel]::Optimal,
+        $false)
+    $distributionHash = (Get-FileHash -LiteralPath $distributionArchive -Algorithm SHA256).Hash
+    [IO.File]::WriteAllText(
+        $distributionChecksum,
+        "$distributionHash  $(Split-Path -Leaf $distributionArchive)$([Environment]::NewLine)",
+        [Text.Encoding]::ASCII)
 
     [pscustomobject]@{
         Installer = $installerExecutable
         SizeMB    = [math]::Round((Get-Item -LiteralPath $installerExecutable).Length / 1MB, 1)
+        Package   = $distributionArchive
+        PackageMB = [math]::Round((Get-Item -LiteralPath $distributionArchive).Length / 1MB, 1)
     }
 }
 finally {
