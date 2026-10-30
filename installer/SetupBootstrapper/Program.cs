@@ -258,16 +258,14 @@ internal static class Program
             throw new IOException($"The destination path is not a folder: {installDirectory}");
         }
 
-        if (previousManifest is not null && previousDirectory is not null)
-        {
-            ValidateShortcuts(previousManifest.Shortcuts);
-        }
-
-        var knownShortcuts = previousManifest?.Shortcuts ?? [];
         var shortcuts = GetShortcutPaths();
+        var allowedShortcuts = shortcuts.Values.ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var knownShortcuts = previousManifest?.Shortcuts
+            .Where(shortcut => allowedShortcuts.Contains(shortcut))
+            .ToHashSet(StringComparer.OrdinalIgnoreCase) ?? [];
         foreach (var shortcut in shortcuts.Values)
         {
-            if (File.Exists(shortcut) && !knownShortcuts.Contains(shortcut, StringComparer.OrdinalIgnoreCase))
+            if (File.Exists(shortcut) && !knownShortcuts.Contains(shortcut))
             {
                 throw new IOException($"Setup will not overwrite an unrelated shortcut: {shortcut}");
             }
@@ -477,7 +475,6 @@ internal static class Program
         {
             _ = GetSafePath(directory, relativePath);
         }
-        ValidateShortcuts(manifest.Shortcuts);
         return manifest;
     }
 
@@ -504,15 +501,6 @@ internal static class Program
             ["startup"] = Path.Combine(startup, "Broski.lnk"),
             ["desktop"] = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Broski.lnk")
         };
-    }
-
-    private static void ValidateShortcuts(IEnumerable<string> paths)
-    {
-        var allowed = GetShortcutPaths().Values.ToHashSet(StringComparer.OrdinalIgnoreCase);
-        if (paths.Any(path => !allowed.Contains(path)))
-        {
-            throw new InvalidDataException("The installation manifest contains an unrecognized shortcut path.");
-        }
     }
 
     private static void CreateShortcut(string path, string target, string workingDirectory, string description, string icon)
@@ -612,7 +600,8 @@ internal static class Program
         }
         if (removeShortcuts)
         {
-            foreach (var shortcut in manifest.Shortcuts)
+            var allowedShortcuts = GetShortcutPaths().Values.ToHashSet(StringComparer.OrdinalIgnoreCase);
+            foreach (var shortcut in manifest.Shortcuts.Where(allowedShortcuts.Contains))
             {
                 if (File.Exists(shortcut))
                 {

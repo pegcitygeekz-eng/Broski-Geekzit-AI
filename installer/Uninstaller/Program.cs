@@ -62,7 +62,8 @@ internal static class Program
         }
 
         EnsureAppsAreClosed(installDirectory);
-        foreach (var shortcut in manifest.Shortcuts)
+        var knownShortcuts = GetShortcutPaths().ToHashSet(StringComparer.OrdinalIgnoreCase);
+        foreach (var shortcut in manifest.Shortcuts.Where(knownShortcuts.Contains))
         {
             if (File.Exists(shortcut))
             {
@@ -132,11 +133,6 @@ internal static class Program
             _ = GetSafePath(installDirectory, relativePath);
         }
 
-        var allowedShortcuts = GetShortcutPaths().ToHashSet(StringComparer.OrdinalIgnoreCase);
-        if (manifest.Shortcuts.Any(path => !allowedShortcuts.Contains(path)))
-        {
-            throw new InvalidDataException("The uninstall manifest contains an unrecognized shortcut.");
-        }
     }
 
     private static string GetSafePath(string root, string relativePath)
