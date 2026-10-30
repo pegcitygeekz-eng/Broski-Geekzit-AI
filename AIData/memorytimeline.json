@@ -1,0 +1,61 @@
+{
+  "Version": "1.0",
+  "Timeline": [
+    {
+      "Id": "EVT001",
+      "Timestamp": "2026-10-30T01:15:00",
+      "Type": "ProjectCreated",
+      "Title": "Choppa AI",
+      "Description": "Created AI memory architecture.",
+      "Project": "Choppa AI",
+      "Topic": "Memory System",
+      "ConversationId": "CONV001",
+      "Keywords": [
+        "memory",
+        "brain",
+        "json"
+      ]
+    }
+  ],
+  "Milestones": [
+    {
+      "Id": "MILE001",
+      "Title": "Choppa AI First Release",
+      "Date": "2026-11-01",
+      "Description": "Completed initial release."
+    }
+  ],
+  "ProjectHistory": [],
+  "TopicHistory": [],
+  "ConversationHistory": [],
+  "TaskHistory": [],
+  "KnowledgeHistory": [],
+  "UserHistory": [],
+  "Today": [],
+  "ThisWeek": [],
+  "ThisMonth": [],
+  "ThisYear": [],
+  "RecentEvents": [],
+  "EventTypes": [
+    "Conversation",
+    "ProjectCreated",
+    "ProjectUpdated",
+    "TopicCreated",
+    "TopicUpdated",
+    "TaskCreated",
+    "TaskCompleted",
+    "NoteCreated",
+    "KnowledgeAdded",
+    "ReminderCreated",
+    "BookmarkAdded",
+    "WorkspaceChanged"
+  ],
+  "Statistics": {
+    "EventsTracked": 1,
+    "ProjectsTracked": 1,
+    "TopicsTracked": 0,
+    "ConversationsTracked": 0,
+    "TasksTracked": 0,
+    "KnowledgeEntriesTracked": 0
+  }
+}

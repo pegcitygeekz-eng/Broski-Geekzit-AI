@@ -1,0 +1,18 @@
+{
+  "Name": "",
+  "CommunicationStyle": "Short Commands",
+  "PreferredTone": "Casual",
+  "UsesSlang": true,
+  "UsesAliases": true,
+  "PrefersInference": true,
+  "PrefersDirectAnswers": true,
+  "Interests": [],
+  "Skills": [],
+  "FavoriteTopics": [],
+  "Settings": {
+    "AutoCorrect": true,
+    "ContextAwareness": true,
+    "LearningEnabled": true,
+    "MemoryEnabled": true
+  }
+}

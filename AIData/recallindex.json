@@ -1,0 +1,58 @@
+{
+  "Projects": [],
+  "Topics": [],
+  "Conversations": [],
+  "Notes": [],
+  "Tasks": [],
+  "Knowledge": [],
+  "Keywords": {},
+  "Relationships": [],
+  "Pinned": [],
+  "RecentSearches": [],
+  "Statistics": {
+    "IndexedProjects": 0,
+    "IndexedTopics": 0,
+    "IndexedConversations": 0,
+    "IndexedNotes": 0,
+    "IndexedKnowledge": 0
+  },
+  "LegacyCatalog": {
+    "Projects": [],
+    "Topics": [],
+    "Conversations": [],
+    "System": [
+      {
+        "Title": "First Time Tutorial",
+        "Type": "System",
+        "File": "tutorial.json"
+      },
+      {
+        "Title": "Search Profiles",
+        "Type": "System",
+        "File": "brain.json",
+        "Section": "SearchProfiles"
+      },
+      {
+        "Title": "Intent Phrases",
+        "Type": "System",
+        "File": "learning.json",
+        "Section": "Intents"
+      },
+      {
+        "Title": "Memory Timeline",
+        "Type": "System",
+        "File": "memorytimeline.json"
+      },
+      {
+        "Title": "Runtime State",
+        "Type": "System",
+        "File": "runtimestate.json"
+      }
+    ],
+    "Notes": [],
+    "Knowledge": [],
+    "RecentItems": [],
+    "PinnedItems": [],
+    "Favorites": []
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "Version": "1.0",
+
+  "Enabled": true,
+
+  "Steps": [
+    {
+      "Id": "welcome",
+      "Title": "Welcome",
+      "Message": "Aye, what's up? I'm Chopper, your AI assistant. Who's you?",
+      "Type": "NamePrompt",
+      "Skippable": false
+    },
+
+    {
+      "Id": "name-confirmation",
+      "Title": "Name confirmation",
+      "Message": "You cool with me calling you \"{FirstName}\"?",
+      "Type": "NameConfirmation",
+      "Skippable": true
+    },
+
+    {
+      "Id": "nickname",
+      "Title": "Nickname",
+      "Message": "Ight, so what do they call you?",
+      "Type": "NicknamePrompt",
+      "MinimumCharacters": 4,
+      "Skippable": true
+    },
+
+    {
+      "Id": "websearch",
+      "Title": "Web Search",
+      "Message": "🌐 Want me to open a website? Type “open” plus its name, like “open youtube.com.” For a movie or show, ask where to watch it.",
+      "Type": "Info"
+    },
+
+    {
+      "Id": "projects",
+      "Title": "Projects",
+      "Message": "🛠 Need help with a project? Type: help me with ... and I'll see what I can do to help.",
+      "Type": "Info"
+    },
+
+    {
+      "Id": "design",
+      "Title": "Design",
+      "Message": "🎨 Want a design? Type “draw me a picture of...” and I’ll help brainstorm ideas or write a prompt. I can’t create image files directly here.",
+      "Type": "Info"
+    },
+
+    {
+      "Id": "devices",
+      "Title": "Devices",
+      "Message": "📱 Need to log a device or repair? Type “log a device” to save the model, issue, status, and notes locally. Don’t save passwords, IMEI, or serial numbers.",
+      "Type": "Info"
+    },
+
+    {
+      "Id": "planner",
+      "Title": "Planner",
+      "Message": "⏰ Type “set an alarm” to schedule an alert, or “save an appointment” to keep it in your organizer. Alarms use Windows Task Scheduler; appointment and device records are saved locally.",
+      "Type": "Info"
+    },
+
+    {
+      "Id": "memory",
+      "Title": "Memory",
+      "Message": "🧠 I can remember useful conversation notes. Use “Manage learned knowledge” in the right-click menu to review or remove saved entries.",
+      "Type": "Info"
+    },
+
+    {
+      "Id": "finish",
+      "Title": "Finish",
+      "Message": "You can find the full rundown anytime in the right-click menu. Need ADB & Fastboot help? It’s there too. Ready when you are?",
+      "Type": "Finish"
+    }
+  ]
+}

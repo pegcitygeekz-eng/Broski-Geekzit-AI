@@ -1,0 +1,347 @@
+<Window x:Class="ChoppaAI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Choppa AI"
+        Width="370"
+        Height="350"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        ShowInTaskbar="True"
+        Topmost="True"
+        WindowStyle="None"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing"
+        Closed="Window_Closed"
+        PreviewMouseLeftButtonDown="Window_PreviewMouseLeftButtonDown"
+        PreviewMouseMove="Window_PreviewMouseMove"
+        PreviewMouseLeftButtonUp="Window_PreviewMouseLeftButtonUp"
+        PreviewMouseRightButtonUp="Window_PreviewMouseRightButtonUp">
+    <Window.ContextMenu>
+        <ContextMenu x:Name="PetContextMenu" Closed="PetContextMenu_Closed">
+            <MenuItem Header="Refresh" Click="Refresh_Click" />
+            <MenuItem Header="Reload animations" Click="Reload_Click" />
+            <MenuItem Header="Update with installer..." Click="Update_Click" />
+            <Separator />
+            <MenuItem Header="AI brains &amp; API keys..." Click="AiProviders_Click" />
+            <MenuItem Header="Ollama model..." Click="Model_Click" />
+            <MenuItem Header="Import animation">
+                <MenuItem Header="Base..." Tag="base" Click="ImportAnimationCategory_Click" />
+                <MenuItem Header="Music..." Tag="music" Click="ImportAnimationCategory_Click" />
+                <MenuItem Header="Movies..." Tag="movies" Click="ImportAnimationCategory_Click" />
+                <Separator />
+                <MenuItem Header="Yes reaction..." Tag="yes" Click="ImportReaction_Click" />
+                <MenuItem Header="No reaction..." Tag="no" Click="ImportReaction_Click" />
+                <MenuItem Header="Confused reaction..." Tag="confused" Click="ImportReaction_Click" />
+                <MenuItem Header="Notification reaction..." Tag="notification" Click="ImportReaction_Click" />
+                <MenuItem Header="Greeting reaction..." Tag="greeting" Click="ImportReaction_Click" />
+            </MenuItem>
+            <MenuItem Header="Remove imported animation">
+                <MenuItem Header="Base..." Tag="base" Click="RemoveAnimationCategory_Click" />
+                <MenuItem Header="Music..." Tag="music" Click="RemoveAnimationCategory_Click" />
+                <MenuItem Header="Movies..." Tag="movies" Click="RemoveAnimationCategory_Click" />
+                <Separator />
+                <MenuItem Header="Yes reaction" Tag="yes" Click="RemoveReaction_Click" />
+                <MenuItem Header="No reaction" Tag="no" Click="RemoveReaction_Click" />
+                <MenuItem Header="Confused reaction" Tag="confused" Click="RemoveReaction_Click" />
+                <MenuItem Header="Notification reaction" Tag="notification" Click="RemoveReaction_Click" />
+                <MenuItem Header="Greeting reaction" Tag="greeting" Click="RemoveReaction_Click" />
+            </MenuItem>
+            <MenuItem Header="Play imported category">
+                <MenuItem Header="Base" Tag="base" Click="PlayImportedCategory_Click" />
+                <MenuItem Header="Music" Tag="music" Click="PlayImportedCategory_Click" />
+                <MenuItem Header="Movies" Tag="movies" Click="PlayImportedCategory_Click" />
+            </MenuItem>
+            <MenuItem Header="Play reaction">
+                <MenuItem Header="Yes" Tag="yes" Click="PlayImportedReaction_Click" />
+                <MenuItem Header="No" Tag="no" Click="PlayImportedReaction_Click" />
+                <MenuItem Header="Confused" Tag="confused" Click="PlayImportedReaction_Click" />
+                <MenuItem Header="Notification" Tag="notification" Click="PlayImportedReaction_Click" />
+                <MenuItem Header="Greeting" Tag="greeting" Click="PlayImportedReaction_Click" />
+            </MenuItem>
+            <MenuItem Header="Adjust size">
+                <MenuItem StaysOpenOnClick="True">
+                    <MenuItem.Header>
+                        <StackPanel Width="190" Margin="4">
+                            <TextBlock x:Name="WidgetSizeLabel"
+                                       Margin="0,0,0,4"
+                                       Text="Widget width: 370 px" />
+                            <Slider x:Name="WidgetSizeSlider"
+                                    Minimum="280"
+                                    Maximum="470"
+                                    Value="370"
+                                    TickFrequency="10"
+                                    ToolTip="Adjust mascot size" />
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
+            </MenuItem>
+            <Separator />
+            <MenuItem Header="Need a hand?">
+                <MenuItem Header="General help" Click="NeedAHand_Click" />
+                <MenuItem Header="What's playing?" Click="NowPlaying_Click" />
+                <MenuItem Header="ADB &amp; Fastboot help" Click="AdbFastbootHelp_Click" />
+            </MenuItem>
+            <MenuItem Header="Creative workflows" Click="CreativeWorkflows_Click" />
+            <MenuItem Header="Organizer">
+                <MenuItem Header="Set an alarm..." Click="SetAlarm_Click" />
+                <MenuItem Header="Save an appointment..." Click="SaveAppointment_Click" />
+                <MenuItem Header="Log a device..." Click="LogDevice_Click" />
+                <MenuItem Header="View saved records..." Click="ViewOrganizer_Click" />
+            </MenuItem>
+            <MenuItem Header="Manage learned knowledge..." Click="ManageKnowledge_Click" />
+            <MenuItem Header="Open streaming site">
+                <MenuItem Header="Disney+" Tag="https://www.disneyplus.com/" Click="StreamingSite_Click" />
+                <MenuItem Header="Amazon Prime Video" Tag="https://www.primevideo.com/" Click="StreamingSite_Click" />
+                <MenuItem Header="Netflix" Tag="https://www.netflix.com/" Click="StreamingSite_Click" />
+                <MenuItem Header="Hulu" Tag="https://www.hulu.com/" Click="StreamingSite_Click" />
+                <MenuItem Header="Max" Tag="https://www.max.com/" Click="StreamingSite_Click" />
+            </MenuItem>
+            <MenuItem Header="Email help" Click="EmailHelp_Click" />
+            <MenuItem Header="Preview notification" Click="PreviewNotification_Click" />
+            <Separator />
+            <MenuItem Header="Minimize" Click="Minimize_Click" />
+            <MenuItem Header="Close Choppa AI" Click="Exit_Click" />
+        </ContextMenu>
+    </Window.ContextMenu>
+    <Grid Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" MinHeight="52" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+
+        <Border x:Name="SpeechBubble"
+                Grid.Row="0"
+                MaxWidth="350"
+                MaxHeight="280"
+                Margin="8,4,8,2"
+                Padding="14,9"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Background="#F8FFFFFF"
+                BorderBrush="#FF264A76"
+                BorderThickness="1.5"
+                CornerRadius="16"
+                Opacity="0"
+                Panel.ZIndex="3"
+                IsHitTestVisible="False"
+                RenderTransformOrigin="0.5,1">
+            <Border.RenderTransform>
+                <TranslateTransform x:Name="BubbleOffset" Y="8" />
+            </Border.RenderTransform>
+            <Grid>
+                <RichTextBox x:Name="SpeechText"
+                             MaxHeight="240"
+                             Padding="0"
+                             Background="Transparent"
+                             BorderThickness="0"
+                             Cursor="IBeam"
+                             FontSize="13"
+                             FontWeight="SemiBold"
+                             Foreground="#FF172B45"
+                             IsDocumentEnabled="True"
+                             IsReadOnly="True"
+                             ToolTip="Select text and press Ctrl+C to copy. Click linked song titles to search."
+                             VerticalScrollBarVisibility="Auto"
+                             GotKeyboardFocus="SpeechText_GotKeyboardFocus"
+                             LostKeyboardFocus="SpeechText_LostKeyboardFocus" />
+                <StackPanel x:Name="OnboardingPanel"
+                            Visibility="Collapsed">
+                    <ScrollViewer MaxHeight="205"
+                                  VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <TextBlock x:Name="OnboardingMessage"
+                                       Margin="0,0,0,10"
+                                       FontSize="13"
+                                       FontWeight="SemiBold"
+                                       Foreground="#FF172B45"
+                                       TextWrapping="Wrap" />
+                            <Grid x:Name="OnboardingNameFields"
+                                  Visibility="Collapsed">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0"
+                                            Margin="0,0,5,0">
+                                    <TextBlock Margin="0,0,0,3"
+                                               Text="First name" />
+                                    <TextBox x:Name="OnboardingFirstName"
+                                             MaxLength="40"
+                                             Padding="6,4"
+                                             TextChanged="OnboardingName_TextChanged"
+                                             ToolTip="Enter your first name" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="1"
+                                            Margin="5,0,0,0">
+                                    <TextBlock Margin="0,0,0,3"
+                                               Text="Last name" />
+                                    <TextBox x:Name="OnboardingLastName"
+                                             MaxLength="60"
+                                             Padding="6,4"
+                                             TextChanged="OnboardingName_TextChanged"
+                                             ToolTip="Enter your last name" />
+                                </StackPanel>
+                            </Grid>
+                            <StackPanel x:Name="OnboardingNicknamePanel"
+                                        Visibility="Collapsed">
+                                <TextBlock Margin="0,0,0,4"
+                                           Text="Nickname" />
+                                <TextBox x:Name="OnboardingNickname"
+                                         MaxLength="40"
+                                         Padding="6,4"
+                                         TextChanged="OnboardingNickname_TextChanged"
+                                         ToolTip="Enter a nickname with at least four characters" />
+                            </StackPanel>
+                            <StackPanel x:Name="OnboardingNameChoicePanel"
+                                        Orientation="Horizontal"
+                                        Visibility="Collapsed">
+                                <Button x:Name="OnboardingYesButton"
+                                        MinWidth="72"
+                                        Margin="0,0,8,0"
+                                        Padding="10,5"
+                                        Click="OnboardingYes_Click"
+                                        Content="Yes" />
+                                <Button x:Name="OnboardingNoButton"
+                                        MinWidth="72"
+                                        Padding="10,5"
+                                        Click="OnboardingNo_Click"
+                                        Content="No" />
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                    <StackPanel Margin="0,10,0,0"
+                                HorizontalAlignment="Right"
+                                Orientation="Horizontal">
+                        <Button x:Name="OnboardingNextButton"
+                                MinWidth="38"
+                                Margin="0,0,8,0"
+                                Padding="10,5"
+                                Click="OnboardingNext_Click"
+                                Content="›"
+                                IsEnabled="False"
+                                ToolTip="Continue" />
+                        <Button x:Name="OnboardingSkipButton"
+                                Padding="10,5"
+                                Click="OnboardingSkip_Click"
+                                Content="Skip intro" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Image x:Name="MascotFrame"
+               Grid.Row="1"
+               Grid.RowSpan="2"
+               Width="350"
+               Height="260"
+               Margin="0,0,0,42"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Bottom"
+               Panel.ZIndex="1"
+               Stretch="Uniform"
+               MouseLeftButtonDown="MascotFrame_MouseLeftButtonDown"
+               MouseLeftButtonUp="MascotFrame_MouseLeftButtonUp">
+            <Image.Effect>
+                <DropShadowEffect Color="Black"
+                                  BlurRadius="1"
+                                  ShadowDepth="0"
+                                  Opacity="1" />
+            </Image.Effect>
+        </Image>
+
+        <MediaElement x:Name="MascotVideo"
+                      Grid.Row="1"
+                      Grid.RowSpan="2"
+                      Width="350"
+                      Height="260"
+                      Margin="0,0,0,42"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Bottom"
+                      Panel.ZIndex="1"
+                      Stretch="Uniform"
+                      Volume="0"
+                      LoadedBehavior="Manual"
+                      UnloadedBehavior="Stop"
+                      Visibility="Collapsed"
+                      MediaEnded="MascotVideo_MediaEnded"
+                      MediaFailed="MascotVideo_MediaFailed"
+                      MouseLeftButtonDown="MascotFrame_MouseLeftButtonDown"
+                      MouseLeftButtonUp="MascotFrame_MouseLeftButtonUp">
+            <MediaElement.Effect>
+                <DropShadowEffect Color="Black"
+                                  BlurRadius="1"
+                                  ShadowDepth="0"
+                                  Opacity="1" />
+            </MediaElement.Effect>
+        </MediaElement>
+
+        <Border Grid.Row="1"
+                Width="46"
+                Height="20"
+                Margin="0,3,8,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Panel.ZIndex="2"
+                Background="#DFFFFFFF"
+                CornerRadius="8"
+                Cursor="SizeAll"
+                MouseLeftButtonDown="DragHandle_MouseLeftButtonDown"
+                ToolTip="Drag to move">
+            <TextBlock HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Foreground="#FF264A76"
+                       FontSize="9"
+                       FontWeight="Bold"
+                       IsHitTestVisible="False"
+                       Text="MOVE" />
+        </Border>
+
+        <Border Grid.Row="2"
+                Margin="5,0,5,5"
+                Padding="3"
+                VerticalAlignment="Bottom"
+                Background="#FF302B3A"
+                BorderBrush="#FF8054C7"
+                BorderThickness="2"
+                CornerRadius="12"
+                Panel.ZIndex="2">
+            <DockPanel LastChildFill="True">
+                <Button x:Name="SendButton"
+                        Width="36"
+                        Height="32"
+                        Margin="4,0,0,0"
+                        Padding="0"
+                        VerticalAlignment="Center"
+                        Background="#FF7044B8"
+                        BorderThickness="0"
+                        Click="SendButton_Click"
+                        Content="➤"
+                        Cursor="Hand"
+                        DockPanel.Dock="Right"
+                        FontSize="19"
+                        Foreground="White"
+                        ToolTip="Send" />
+                <TextBox x:Name="PromptInput"
+                         MinHeight="32"
+                         Padding="9,5"
+                         VerticalContentAlignment="Center"
+                         AcceptsReturn="False"
+                         Background="#FF403B47"
+                         BorderThickness="0"
+                         MaxLength="280"
+                         FontSize="14"
+                         FontFamily="Georgia"
+                         FontWeight="Bold"
+                         CaretBrush="#FFE5D7FF"
+                         Foreground="#FFE6E0EE"
+                         KeyDown="PromptInput_KeyDown"
+                         GotFocus="PromptInput_GotFocus"
+                         LostFocus="PromptInput_LostFocus"
+                         ToolTip="Type here, then press Enter"
+                         Text="Type a message..." />
+            </DockPanel>
+        </Border>
+    </Grid>
+</Window>

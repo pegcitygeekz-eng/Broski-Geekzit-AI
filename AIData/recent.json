@@ -1,0 +1,38 @@
+{
+  "RecentProjects": [
+  ],
+
+  "RecentTopics": [
+  ],
+
+  "RecentConversations": [
+  ],
+
+  "RecentNotes": [
+  ],
+
+  "RecentFiles": [
+  ],
+
+  "RecentCommands": [
+  ],
+
+  "RecentlyLearned": [
+  ],
+
+  "LastOpened": {
+    "Project": "",
+    "Topic": "",
+    "Conversation": "",
+    "Note": "",
+    "Timestamp": ""
+  },
+
+  "Limits": {
+    "Projects": 25,
+    "Topics": 50,
+    "Conversations": 100,
+    "Notes": 50,
+    "Commands": 100
+  }
+}

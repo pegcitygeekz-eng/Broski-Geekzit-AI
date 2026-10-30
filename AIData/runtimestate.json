@@ -1,0 +1,111 @@
+{
+  "Version": "1.0",
+  "Session": {
+    "Active": false,
+    "SessionId": "",
+    "SessionStart": "",
+    "LastActivity": ""
+  },
+  "User": {
+    "FirstName": "",
+    "LastName": "",
+    "DisplayName": "",
+    "SpecialUser": false
+  },
+  "Workspace": {
+    "CurrentWorkspace": "Personal"
+  },
+  "Context": {
+    "CurrentProject": "",
+    "CurrentTopic": "",
+    "CurrentConversation": "",
+    "CurrentTask": ""
+  },
+  "Actions": {
+    "LastCommand": "",
+    "LastIntent": "",
+    "LastSearch": "",
+    "LastOpened": ""
+  },
+  "UI": {
+    "TutorialCompleted": false,
+    "CurrentScreen": "Welcome",
+    "NotificationsVisible": true
+  },
+  "Files": {
+    "CurrentNote": "",
+    "CurrentProjectFile": "",
+    "CurrentConversationFile": ""
+  },
+  "Navigation": {
+    "BackStack": [],
+    "ForwardStack": []
+  },
+  "Flags": {
+    "Busy": false,
+    "Searching": false,
+    "Generating": false,
+    "Learning": false
+  },
+  "Notifications": {
+    "Version": "1.0",
+    "Reminders": [],
+    "Alarms": [],
+    "Appointments": [],
+    "FollowUps": [],
+    "DeviceNotifications": [],
+    "ProjectDeadlines": [],
+    "Birthdays": [],
+    "RecurringTasks": [],
+    "ScheduledMessages": [],
+    "ActiveNotifications": [],
+    "DismissedNotifications": [],
+    "Settings": {
+      "EnableNotifications": true,
+      "EnableSounds": true,
+      "EnablePopups": true,
+      "EnableReminders": true,
+      "EnableFollowUps": true,
+      "DefaultReminderMinutes": 30
+    },
+    "PriorityLevels": [
+      "Low",
+      "Normal",
+      "High",
+      "Critical"
+    ],
+    "Statistics": {
+      "RemindersCreated": 0,
+      "RemindersCompleted": 0,
+      "AppointmentsCreated": 0,
+      "NotificationsSent": 0,
+      "AlarmsTriggered": 0
+    }
+  },
+  "WorkspaceDefinitions": {
+    "CurrentWorkspace": "Personal",
+    "Workspaces": [
+      {
+        "Name": "Personal",
+        "Description": "General personal workspace",
+        "Projects": [],
+        "Topics": [],
+        "Notes": []
+      },
+      {
+        "Name": "PegCityGeekz",
+        "Description": "Repair business workspace",
+        "Projects": [],
+        "Topics": [],
+        "Notes": []
+      },
+      {
+        "Name": "Choppa AI",
+        "Description": "AI development workspace",
+        "Projects": [],
+        "Topics": [],
+        "Notes": []
+      }
+    ]
+  }
+}

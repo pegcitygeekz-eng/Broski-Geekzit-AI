@@ -1,0 +1,36 @@
+{
+  "ProjectRelationships": [],
+
+  "TopicRelationships": [],
+
+  "ConversationRelationships": [],
+
+  "NoteRelationships": [],
+
+  "TaskRelationships": [],
+
+  "KnowledgeRelationships": [],
+
+  "EntityLinks": [],
+
+  "RelationshipTypes": [
+    "Contains",
+    "RelatedTo",
+    "References",
+    "DependsOn",
+    "CreatedFrom",
+    "BelongsTo",
+    "MentionedIn",
+    "ContinuationOf"
+  ],
+
+  "Statistics": {
+    "TotalRelationships": 0,
+    "ProjectLinks": 0,
+    "TopicLinks": 0,
+    "ConversationLinks": 0,
+    "NoteLinks": 0,
+    "TaskLinks": 0,
+    "KnowledgeLinks": 0
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "PinnedProjects": [],
+  "PinnedTopics": [],
+  "PinnedConversations": [],
+  "PinnedNotes": [],
+  "PinnedTasks": [],
+
+  "Favorites": [],
+
+  "QuickAccess": [
+    {
+      "Title": "Recent Projects",
+      "Type": "System"
+    },
+    {
+      "Title": "Recent Conversations",
+      "Type": "System"
+    },
+    {
+      "Title": "Pinned Items",
+      "Type": "System"
+    }
+  ],
+
+  "Statistics": {
+    "PinnedProjects": 0,
+    "PinnedTopics": 0,
+    "PinnedConversations": 0,
+    "PinnedNotes": 0,
+    "PinnedTasks": 0
+  }
+}

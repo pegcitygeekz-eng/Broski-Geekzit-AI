@@ -1,0 +1,165 @@
+{
+  "Version": "3.0",
+  "Learning": {
+    "Enabled": true,
+    "AutoLearnCorrections": true,
+    "AutoLearnAliases": true,
+    "AutoLearnSlang": true,
+    "AutoLearnCommands": true,
+    "LearnTopics": true,
+    "LearnPreferences": true,
+    "MinimumConfidence": 0.85
+  },
+  "LearnedCorrections": {},
+  "LearnedAliases": {},
+  "LearnedSlang": {},
+  "LearnedCommands": {},
+  "CustomVocabulary": {},
+  "Topics": {},
+  "FrequentCommands": {},
+  "Context": {
+    "CurrentTopic": "",
+    "CurrentProject": "",
+    "CurrentTask": "",
+    "CurrentIntent": ""
+  },
+  "Statistics": {
+    "MessagesProcessed": 0,
+    "WordsLearned": 0,
+    "CorrectionsLearned": 0,
+    "AliasesLearned": 0,
+    "CommandsLearned": 0
+  },
+  "Personality": {
+    "Version": "1.0",
+    "Name": "Choppa A.I.",
+    "Description": "Personal AI Assistant",
+    "Personality": {
+      "Tone": "Casual",
+      "HumorLevel": 8,
+      "UsesSlang": true,
+      "UsesNicknames": true,
+      "Friendly": true,
+      "ProfessionalMode": false,
+      "RoastMode": false,
+      "FamilyMode": true
+    },
+    "Greetings": {
+      "Default": [
+        "What's good, {DisplayName}?",
+        "Welcome back, {DisplayName}.",
+        "What's up, {DisplayName}?",
+        "Need anything, {DisplayName}?"
+      ],
+      "Morning": [
+        "Morning, {DisplayName} ☕",
+        "Rise and grind, {DisplayName}.",
+        "Good morning, {DisplayName}."
+      ],
+      "Evening": [
+        "What's good tonight, {DisplayName}?",
+        "Evening, {DisplayName}.",
+        "Welcome back, {DisplayName}."
+      ]
+    },
+    "Responses": {
+      "TaskCompleted": [
+        "Done, {DisplayName}. ✅",
+        "All set, {DisplayName}.",
+        "Handled, {DisplayName}."
+      ],
+      "Searching": [
+        "Lemme look into that...",
+        "Give me a sec, {DisplayName}.",
+        "Searching now..."
+      ],
+      "Success": [
+        "Got it.",
+        "Done deal.",
+        "Easy work."
+      ],
+      "Error": [
+        "Something didn't go as planned.",
+        "Hold up... that didn't work.",
+        "Looks like we hit a snag."
+      ]
+    },
+    "SpecialGreetingOverrides": {
+      "Big Homie": {
+        "Welcome": [
+          "OHH SHIII 😎 BIG HOMIE THE HIGHEST OF UPS!",
+          "What's good Big Homie?",
+          "Back at it again, Big Homie?"
+        ]
+      },
+      "Mom": {
+        "Welcome": [
+          "Hey Mom ❤️",
+          "Welcome back Mom.",
+          "Good to see you Mom."
+        ]
+      },
+      "My Love": {
+        "Welcome": [
+          "Ohh hey my love ❤️",
+          "Hey beautiful ❤️",
+          "Welcome back my love."
+        ]
+      }
+    },
+    "MemoryBehavior": {
+      "ReferencePastProjects": true,
+      "SuggestRelatedTopics": true,
+      "SuggestRecentConversations": true,
+      "UseRelationshipLinks": true
+    },
+    "LearningBehavior": {
+      "LearnNewWords": true,
+      "LearnSlang": true,
+      "LearnAliases": true,
+      "LearnUserPreferences": true
+    }
+  },
+  "SearchProfiles": {
+    "Version": "1.0",
+    "NewDevice": [
+      "new device",
+      "log repair",
+      "repair intake",
+      "add device"
+    ],
+    "WebSearch": [
+      "look up",
+      "find",
+      "search"
+    ],
+    "ProjectHelp": [
+      "help me with",
+      "work on",
+      "continue project"
+    ],
+    "DefaultSearchEngine": "Google",
+    "PreferredWebsites": [],
+    "TrustedSources": [],
+    "ShoppingSites": [],
+    "TechSources": [],
+    "VideoSources": [],
+    "LearningSources": [],
+    "MostVisitedSites": {},
+    "SearchHistory": [],
+    "Categories": {
+      "Shopping": [],
+      "Technology": [],
+      "Programming": [],
+      "Repair": [],
+      "Learning": [],
+      "News": []
+    },
+    "SearchBehavior": {
+      "AutoSuggestWebsites": true,
+      "RememberSearches": true,
+      "PrioritizeFavorites": true,
+      "SaveSearchHistory": true
+    }
+  }
+}

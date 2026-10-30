@@ -1,0 +1,69 @@
+{
+  "Version": "1.0",
+  "User": {
+    "Name": "",
+    "CommunicationStyle": "Short Commands",
+    "UsesSlang": true,
+    "UsesAliases": true,
+    "PrefersInference": true,
+    "PreferredTone": "Casual"
+  },
+  "Business": {
+    "Name": "",
+    "Industry": "",
+    "Description": ""
+  },
+  "Projects": {
+    "Active": {},
+    "Completed": {},
+    "Archived": {}
+  },
+  "Customers": {},
+  "Devices": {},
+  "Jobs": {},
+  "Sales": {},
+  "Inventory": {},
+  "KnownPeople": {},
+  "Knowledge": {
+    "ArtificialIntelligence": {},
+    "Programming": {},
+    "Windows": {},
+    "Linux": {},
+    "Android": {},
+    "Networking": {},
+    "DeviceRepair": {},
+    "Cybersecurity": {},
+    "Electronics": {}
+  },
+  "Skills": {},
+  "Tools": {},
+  "Notes": {},
+  "Documents": {},
+  "Reminders": {},
+  "Preferences": {},
+  "Facts": {},
+  "LearningHistory": {
+    "WordsLearned": [],
+    "CorrectionsLearned": [],
+    "AliasesLearned": [],
+    "SlangLearned": [],
+    "CommandsLearned": [],
+    "TopicsLearned": []
+  },
+  "MemoryRules": {
+    "StoreProjects": true,
+    "StoreCustomers": true,
+    "StoreDevices": true,
+    "StoreInventory": true,
+    "StoreKnowledge": true,
+    "StorePreferences": true,
+    "StoreTemporaryChats": false
+  },
+  "Statistics": {
+    "FactsStored": 0,
+    "ProjectsTracked": 0,
+    "CustomersTracked": 0,
+    "DevicesTracked": 0,
+    "NotesStored": 0
+  }
+}
