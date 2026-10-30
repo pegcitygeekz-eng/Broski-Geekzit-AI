@@ -1,22 +1,21 @@
 BROSKI AI WINDOWS INSTALLER
 
-Run broski-0.0.2.exe and follow the setup wizard. Setup installs the Windows
-desktop app for your account and creates Start menu and desktop shortcuts.
-The single installer includes the app, animation and blueprint assets, setup
-wizard, and uninstall scripts. No separate PowerShell or CMD files are needed
-to install or uninstall.
+Run broski-0.0.3.exe and follow the setup wizard. The self-contained Windows
+installer includes the desktop app, animation and blueprint assets, launcher,
+and a separate executable uninstaller. Installation and uninstallation do not
+require PowerShell scripts or administrator access.
 
-The canonical release is installer\release\broski-0.0.2.exe. The PowerShell,
-CMD, and bootstrapper project files elsewhere in installer are build sources,
-not additional release packages.
+The canonical build output is installer\release\broski-0.0.3.exe. The
+Build-Installer.ps1 file is developer tooling used to build the executable; it
+is not an installer and is not required by end users.
 
-Windows may prevent installers from pinning apps to the taskbar. If setup cannot
-pin Choppa AI automatically, right-click the desktop shortcut and choose
+Setup creates Start menu, desktop, and sign-in startup shortcuts. If Windows
+does not allow taskbar pinning, right-click the desktop shortcut and choose
 "Pin to taskbar".
 
 Ollama is not included. Install Ollama and a model separately to use local AI
-chat. The installer does not require administrator access.
+chat.
 
-To uninstall, use "Uninstall Choppa AI" in the Start menu or run
-Uninstall-ChoppaAI.cmd in the installation folder. Uninstall removes only files
-recorded by setup and leaves unrelated files in place.
+To uninstall, use "Uninstall Broski" in the Start menu. The executable
+uninstaller removes only files recorded by setup and leaves unrelated files
+and user data outside the installation folder in place.

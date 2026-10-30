@@ -8,6 +8,7 @@ $projectDirectory = Get-Item (Join-Path $installerFolder '..') | Select-Object -
 $projectFile = Join-Path $projectDirectory 'ChoppaAI.csproj'
 $launcherProject = Join-Path $projectDirectory 'Launcher\BroskiLauncher.csproj'
 $bootstrapperProject = Join-Path $installerFolder 'SetupBootstrapper\SetupBootstrapper.csproj'
+$uninstallerProject = Join-Path $installerFolder 'Uninstaller\BroskiUninstaller.csproj'
 
 if ([string]::IsNullOrWhiteSpace($OutputDirectory)) {
     $OutputDirectory = Join-Path $installerFolder 'release'
@@ -19,11 +20,9 @@ $workDirectory = Join-Path ([IO.Path]::GetTempPath()) "Broski-build-installer-$b
 $publishDirectory = Join-Path $workDirectory 'publish'
 $stageDirectory = Join-Path $workDirectory 'payload'
 $bootstrapperOutput = Join-Path $workDirectory 'setup-exe'
+$uninstallerOutput = Join-Path $workDirectory 'uninstaller'
 $payloadArchive = Join-Path $workDirectory 'ChoppaAI-Payload.zip'
 $installerExecutable = Join-Path $OutputDirectory 'broski-0.0.3.exe'
-$installScript = Join-Path $PSScriptRoot 'Install-ChoppaAI.ps1'
-$uninstallScript = Join-Path $PSScriptRoot 'Uninstall-ChoppaAI.ps1'
-$uninstallCommand = Join-Path $PSScriptRoot 'Uninstall-ChoppaAI.cmd'
 
 if (-not (Test-Path -LiteralPath $projectFile -PathType Leaf)) {
     throw "The project file was not found: $projectFile"
@@ -31,10 +30,8 @@ if (-not (Test-Path -LiteralPath $projectFile -PathType Leaf)) {
 if (-not (Test-Path -LiteralPath $launcherProject -PathType Leaf)) {
     throw "The launcher project was not found: $launcherProject"
 }
-foreach ($sourceFile in @($installScript, $uninstallScript, $uninstallCommand)) {
-    if (-not (Test-Path -LiteralPath $sourceFile -PathType Leaf)) {
-        throw "An installer source file was not found: $sourceFile"
-    }
+if (-not (Test-Path -LiteralPath $uninstallerProject -PathType Leaf)) {
+    throw "The Broski uninstaller project was not found: $uninstallerProject"
 }
 
 New-Item -ItemType Directory -Path $OutputDirectory -Force | Out-Null
@@ -61,9 +58,24 @@ try {
     if ($LASTEXITCODE -ne 0) {
         throw "The Broski launcher publish failed with exit code $LASTEXITCODE."
     }
+
+    & dotnet publish $uninstallerProject `
+        --configuration Release `
+        --runtime win-x64 `
+        --self-contained true `
+        --output $uninstallerOutput `
+        '-p:PublishSingleFile=true'
+    if ($LASTEXITCODE -ne 0) {
+        throw "The Broski uninstaller publish failed with exit code $LASTEXITCODE."
+    }
+
     $launcherExecutable = Join-Path $launcherOutput 'BroskiLauncher.exe'
     if (-not (Test-Path -LiteralPath $launcherExecutable -PathType Leaf)) {
         throw "The published Broski launcher was not found in $launcherOutput."
+    }
+    $uninstallerExecutable = Join-Path $uninstallerOutput 'BroskiUninstaller.exe'
+    if (-not (Test-Path -LiteralPath $uninstallerExecutable -PathType Leaf)) {
+        throw "The published Broski uninstaller was not found in $uninstallerOutput."
     }
 
     $appExe = Join-Path $publishDirectory 'Broski.exe'
@@ -79,12 +91,16 @@ try {
 
     Copy-Item -LiteralPath $publishDirectory -Destination $stageDirectory -Recurse
     Copy-Item -LiteralPath $launcherExecutable -Destination (Join-Path $stageDirectory 'BroskiLauncher.exe')
-    Copy-Item -LiteralPath $uninstallScript -Destination $stageDirectory -Force
-    Copy-Item -LiteralPath $uninstallCommand -Destination $stageDirectory -Force
-    foreach ($payloadFile in @('Broski.exe', 'BroskiLauncher.exe', 'Uninstall-ChoppaAI.ps1', 'Uninstall-ChoppaAI.cmd')) {
+    Copy-Item -LiteralPath $uninstallerExecutable -Destination (Join-Path $stageDirectory 'BroskiUninstaller.exe')
+    foreach ($payloadFile in @('Broski.exe', 'BroskiLauncher.exe', 'BroskiUninstaller.exe')) {
         if (-not (Test-Path -LiteralPath (Join-Path $stageDirectory $payloadFile) -PathType Leaf)) {
             throw "A required file is missing from the installer payload: $payloadFile"
         }
+    }
+    $scriptPayload = Get-ChildItem -LiteralPath $stageDirectory -File -Recurse |
+        Where-Object { $_.Extension -in @('.ps1', '.cmd') }
+    if ($scriptPayload) {
+        throw "The user-facing installer payload must contain executables only, not scripts: $($scriptPayload.Name -join ', ')"
     }
 
     Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -99,7 +115,6 @@ try {
         --runtime win-x64 `
         --self-contained true `
         --output $bootstrapperOutput `
-        "-p:InstallerScript=$installScript" `
         "-p:PayloadArchive=$payloadArchive"
     if ($LASTEXITCODE -ne 0) {
         throw "The installer executable build failed with exit code $LASTEXITCODE."

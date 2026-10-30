@@ -22,6 +22,7 @@
                         RuntimeFrameworkVersion="10.0.26100.86"
                         TargetingPackVersion="10.0.26100.86" />
     <Compile Remove="installer\SetupBootstrapper\**\*.cs" />
+    <Compile Remove="installer\Uninstaller\**\*.cs" />
     <Compile Remove="Launcher\**\*.cs" />
     <Compile Remove="ChoppaAI.Android\**\*.cs" />
     <Content Include="animations\**\*">
