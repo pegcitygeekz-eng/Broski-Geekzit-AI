@@ -216,24 +216,6 @@ internal static class Program
         {
             previousDirectory = Path.GetFullPath(registeredDirectory);
             previousManifest = ReadManifest(previousDirectory);
-            if (previousDirectory.Equals(installDirectory, StringComparison.OrdinalIgnoreCase) &&
-                Directory.Exists(installDirectory))
-            {
-                var oldFiles = previousManifest.Files.ToHashSet(StringComparer.OrdinalIgnoreCase);
-                foreach (var file in Directory.EnumerateFiles(installDirectory, "*", SearchOption.AllDirectories))
-                {
-                    var relativePath = Path.GetRelativePath(installDirectory, file);
-                    if (relativePath.Equals(ManifestFileName, StringComparison.OrdinalIgnoreCase))
-                    {
-                        continue;
-                    }
-
-                    if (!oldFiles.Contains(relativePath))
-                    {
-                        throw new IOException($"Setup will not overwrite an unrelated file: {file}");
-                    }
-                }
-            }
         }
 
         if (Directory.Exists(installDirectory) &&
@@ -259,6 +241,12 @@ internal static class Program
         }
 
         var shortcuts = GetShortcutPaths();
+        var replacingDirectory = previousManifest is not null &&
+            previousDirectory is not null &&
+            previousDirectory.Equals(installDirectory, StringComparison.OrdinalIgnoreCase);
+        var previouslyOwnedFiles = replacingDirectory
+            ? previousManifest!.Files.ToHashSet(StringComparer.OrdinalIgnoreCase)
+            : new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         var allowedShortcuts = shortcuts.Values.ToHashSet(StringComparer.OrdinalIgnoreCase);
         var knownShortcuts = previousManifest?.Shortcuts
             .Where(shortcut => allowedShortcuts.Contains(shortcut))
@@ -288,6 +276,15 @@ internal static class Program
             {
                 var source = GetSafePath(stagingDirectory, file);
                 var destination = GetSafePath(installDirectory, file);
+                if (File.Exists(destination) && !previouslyOwnedFiles.Contains(file))
+                {
+                    throw new IOException($"Setup will not overwrite an unrelated file: {destination}");
+                }
+                if (Directory.Exists(destination))
+                {
+                    throw new IOException($"Setup cannot install a file because a directory already exists at: {destination}");
+                }
+
                 Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
                 File.Copy(source, destination, overwrite: true);
             }
